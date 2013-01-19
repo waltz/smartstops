@@ -8,3 +8,6 @@ example.log
 
 #OS specific files
 .DS_Store
+
+# Emacs temp files.
+*~
