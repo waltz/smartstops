@@ -1,0 +1,15 @@
+{
+    "name": "smartstops",
+    "version": "0.0.1",
+    "private": false,
+    "dependencies": {
+        "express": "3.0.6",
+        "cartodb": "0.0.3",
+        "config": "0.4.18",
+        "requireindex": "1.0.0"
+    },
+    "engines": {
+        "node": "0.8.x",
+        "npm": "1.1.x"
+    }
+}

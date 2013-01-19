@@ -6,6 +6,9 @@ sbsdc.komodoproject
 sbsdc.log
 example.log
 
+# node files
+node_modules/
+
 #OS specific files
 .DS_Store
 

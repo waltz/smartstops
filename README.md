@@ -7,3 +7,9 @@ Originally based on 'Smart Bus Stops Done Dirt Cheap' by:
 * Anders Finn [visiblethinking](http://github.com/visiblethinking)
 * Andrew Hyder [ondrae](http://github.com/ondrae)
 * Cameron Jeffries [camservo](http://github.com/camservo)
+
+
+## Development setup
+1. Install dependencies.
+    $ npm install
+
