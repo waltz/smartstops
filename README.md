@@ -11,5 +11,6 @@ Originally based on 'Smart Bus Stops Done Dirt Cheap' by:
 
 ## Development setup
 1. Install dependencies.
+
     $ npm install
 
