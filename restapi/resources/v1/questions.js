@@ -1,7 +1,8 @@
 var fs = require('fs'),
     proc = require('child_process'),
     async = require('async'),
-    twilio = require('twilio');
+    twilio = require('twilio'),
+File = require('file-utils').File;
 
 exports.post = function(req, res, next) {
     
@@ -17,23 +18,33 @@ exports.post = function(req, res, next) {
     var moduleScores = {};
     var scoreModule = function(file, callback) {
 
-        var module = proc.spawn(MODULES_DIR_PATH + file, [ 'score' ]);
+        var path = process.cwd() + "/" + MODULES_DIR_PATH + file;
 
-        var score = '';
-        module.stdout.on('data', function(data) {
-            score += data;
-        });
+        new File(path).canExecute(function(err, executable) {
+            
+            if (executable) {
 
-        module.stdin.write(JSON.stringify(moduleInput));
-        module.stdin.end();
+                var module = proc.spawn(path, [ 'score' ]);
+                
+                var score = '';
+                module.stdout.on('data', function(data) {
+                    score += data;
+                });
+                
+                module.stdin.write(JSON.stringify(moduleInput));
+                module.stdin.end();
+                
+                module.on('exit', function(code) {
+                    if (code === 0) {
+                        moduleScores[file] = score;
+                        callback();
+                    } else {
+                        callback(code);
+                    }
+                });
 
-        module.on('exit', function(code) {
-            if (code === 0) {
-                moduleScores[file] = score;
-                callback();
-            } else {
-                callback(code);
             }
+
         });
 
     }
