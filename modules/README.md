@@ -9,14 +9,13 @@ SmartStops determines which services to invoke based on the question it is asked
 
     $ ./module/weather
 
-3) The module file must accept a `score <question>` subcommand. It should evalute the question passed to it and print to STDOUT a score between 0 and 1. This score represents the likelihood that the module can answer the given question. For example:
+3) The module file must accept a `score` subcommand. The module will be passed via STDIN a JSON object containing relevant information (see [Module Input](#module_input) below). Using this information, the module should print to STDOUT a score between 0 and 1. This score represents the likelihood that the module can respond to the message sent by the user. For example:
 
-    $ ./module/weather score "what is the weather near 5545?"
+    $ echo '{ "latitude": 37.775, "longitude": -122.413, "message": "what is the weather near 5545?", "phoneNumber": "7894561230" }' | ./module/weather score 
     0.98
 
-4) The module file must accept a `answer <question>` subcommand. It should evaluate the question passed to it and print to STDOUT the answer that will be returned to the user. For example:
+4) The module file must accept a `answer` subcommand. The module will be passed via STDIN a JSON object containing relevant information (see [Module Input](#module_input) below). Using this information, the module should print to STDOUT the response that will be send to the user. For example:
 
-    $ ./module/weather question "what is the weather near 5545?"
+    $ echo '{ "latitude": 37.775, "longitude": -122.413, "message": "what is the weather near 5545?", "phoneNumber": "7894561230" }' | ./module/weather question
     The weather near bus stop 5545 is 59 F
-
 
