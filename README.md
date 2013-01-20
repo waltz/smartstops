@@ -39,3 +39,13 @@ SmartStops determines which services to invoke based on the question it is asked
     $ echo '{ "latitude": 37.775, "longitude": -122.413, "message": "what is the weather near 5545?", "phoneNumber": "7894561230" }' | ./modules.d/weather run
     The weather near bus stop 5545 is 59 F
 
+### Module Input
+Every module receives the following input for all subcommands via STDIN:
+
+    {
+      "latitude": <latitude of bus stop location>,
+      "longitude": <longitude of bus stop location>,
+      "message": <message sent by user>,
+      "phoneNumber": <phone number that message originated from>
+    }
+
