@@ -2,6 +2,7 @@
 import sys
 import re
 import json
+import urllib
 
 # This is the input JSON that it sent to this module by the core program
 input_jsonstr = ("\n".join(sys.stdin.readlines())).strip(" \n")
@@ -26,7 +27,16 @@ if (subcommand == 'score'):
     sys.exit(0)
 
 elif (subcommand == 'run'):
-    # FIXME: Replace with actual weather code
-    print "The temperature is 57F"
+    latitude = str(input['latitude'])
+    longitude = str(input['longitude'])
+    numDays = '5'
+    weatherKey = '4e11214676001957120909'
+    response = urllib.urlopen('http://free.worldweatheronline.com/feed/weather.ashx?q='+latitude+','+longitude+'&format=json&num_of_days='+numDays+'&key='+weatherKey)
+    for line in response:
+        response_dict = json.loads(line)
 
+    current_condition = response_dict['data']['current_condition'][0]
+    current_temp = ['temp_F'] + 'F'
+    weatherDesc = ['weatherDesc'][0]['value']
 
+    print current_temp + ' and ' + weatherDesc
