@@ -5,8 +5,12 @@ var fs     = require('fs'),
     proc   = require('child_process'),
     async  = require('async'),
     twilio = require('twilio'),
+<<<<<<< HEAD
     busStopData = require(process.cwd() + '/lib/sf_busstop_locations.json'),
     File = require('file-utils').File;
+=======
+    File   = require('file-utils').File;
+>>>>>>> 752bc12d0d44301b28308c7367be6fcce9d8febe
 
     var MODULES_DIR_PATH = 'modules.d/'
 
@@ -28,21 +32,22 @@ exports.post = function( req, res ) {
     return;
   }    
 
-  var repo = SmartStops.Models.Chooser.findBestRepo(question);
+    var repo = SmartStops.Models.Chooser.findBestRepo(question);
   
     Response.send(repo.answer(question));
+    SmartStops.Repositories.Foursquare.answer( stop, question )
 
     var twiml = new twilio.TwimlResponse();
     twiml.sms(repo.answer
     res.send(twiml.toString());
 
-    // var moduleInput = {
-    //     busStopId:   stop.id,
-    //     latitude:    stop.latitude,
-    //     longitude:   stop.longitude,
-    //     message:     question.body,
-    //     phoneNumber: question.From
-    // }
+    var moduleInput = {
+        busStopId:   stop.id,
+        latitude:    stop.latitude,
+        longitude:   stop.longitude,
+        message:     question.body,
+        phoneNumber: question.From
+    }
     
     // var moduleScores = {};
     // var scoreModule = function(file, callback) {
