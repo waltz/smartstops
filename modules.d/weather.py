@@ -17,11 +17,15 @@ if (len(sys.argv) == 1):
 subcommand = sys.argv[1]
 if (subcommand == 'score'):
     if ("message" in input):
-        match = re.search('weather', input['message'], flags=re.IGNORECASE);
-        if (match):
-            print 1
-        else:
-            print 0
+
+        # Keywords to match
+        keywords = ['weather', 'tempature', 'hot', 'cold', 'rain', 'warm', 'fog', 'foggy', 'rainy', 'sun', 'sunny']
+        matched = 0
+        for keyword in keywords:
+            match = re.search('weather', input['message'], flags=re.IGNORECASE)
+            if (match):
+                matched = 1
+        print matched
     else:
         print 0
     sys.exit(0)
@@ -36,7 +40,7 @@ elif (subcommand == 'run'):
         response_dict = json.loads(line)
 
     current_condition = response_dict['data']['current_condition'][0]
-    current_temp = ['temp_F'] + 'F'
-    weatherDesc = ['weatherDesc'][0]['value']
+    current_temp = current_condition['temp_F'] + 'F'
+    weatherDesc = current_condition['weatherDesc'][0]['value']
 
     print current_temp + ' and ' + weatherDesc
