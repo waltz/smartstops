@@ -1,7 +1,9 @@
+var SmartStops = require('../../../smart_stops')
+
 // Import the required Node modules.
-var fs = require('fs'),
-    proc = require('child_process'),
-    async = require('async'),
+var fs     = require('fs'),
+    proc   = require('child_process'),
+    async  = require('async'),
     twilio = require('twilio'),
     busStopData = require(process.cwd() + '/lib/sf_busstop_locations.json'),
 File = require('file-utils').File;
@@ -9,28 +11,25 @@ File = require('file-utils').File;
     var MODULES_DIR_PATH = 'modules.d/'
 
 // Read the Post data
-exports.post = function(req, res, next) {
+exports.post = function( req, res ) {
+
+  var question = new SmartStops.Models.Question( req.body )
+  var stop     = SmartStops.Models.BusStop.findByQuestion(question)
+
+  if (stop) {
+    console.log("Bus stop found")
+  } else {
+    console.log("Could not locate bus stop")
+  }
 
     var moduleInput = {
-        busStopId: 0,
-        latitude: 0.0,
-        longitude: 0.0,
-        message: req.body.Body,
-        phoneNumber: req.body.From
+        busStopId:   stop.id,
+        latitude:    stop.latitude,
+        longitude:   stop.longitude,
+        message:     question.body,
+        phoneNumber: question.From
     }
 
-    // Bus stop id is any three more digits in the body
-    moduleInput.busStopId = moduleInput.message.match(/\d{3,}/g)[0];
-
-    // Geocode the bus stop
-    for(var i = 0; i<busStopData.length; i++)
-    {
-         if(busStopData[i]['stopid'] == moduleInput.busStopId){
-            moduleInput.latitude = busStopData[i]['latitude'];
-            moduleInput.longitude = busStopData[i]['longitude'];
-         }
-    }
-    
     var moduleScores = {};
     var scoreModule = function(file, callback) {
 
