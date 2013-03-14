@@ -1,4 +1,4 @@
-var Twilio = require('Twilio')
+var Twilio = require('twilio')
 
 var Response = function ( response ) {
   this.response = response
