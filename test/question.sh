@@ -12,7 +12,7 @@ do
     p)
       PORT="$OPTARG";
       ;;
-    ?)
+    \?)
       exit;
       ;;
   esac

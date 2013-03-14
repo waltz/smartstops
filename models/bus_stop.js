@@ -1,20 +1,18 @@
-data = require('../data/bus_stops')
+var Location = require('./location')
+var data     = require('../data/bus_stops')
+
+var STOP_ID_REGEX = /\d{3,}/
 
 var BusStop = function ( id, attributes ) {
 
   this.id        = id
-  this.latitude  = attributes.latitude
-  this.longitude = attributes.longitude
-
-}
-
-BusStop.prototype = {
+  this.location  = new Location( attributes )
 
 }
 
 BusStop.idFromString = function ( string ) {
   if (!string) string = ""
-  return ( string.match(/\d{3,}/)  || [] )[0]
+  return ( string.match( STOP_ID_REGEX )  || [] )[0]
 }
 
 BusStop.findByQuestion = function ( question ) {

@@ -1,3 +1,4 @@
+// Remove me
 config = {
   secrets: {
     clientId:     "2NJEJ3OGJI3SJQNUBSWCEFZ4YHBMBLFVE54F5MERHX2GP3FS",
@@ -6,33 +7,59 @@ config = {
   }
 }
 
-var client = require('node-foursquare')(config)
+var client = require('node-foursquare')(config),
+    _      = require('underscore')
+
+var Foursquare = function ( question, response ) {
+
+  this.question = question
+  this.response = response
+
+}
 
 var Venue = function ( venue ) {
   this.name = venue.name
 }
 
-var Foursquare = function () {
-
-}
-
 Foursquare.prototype = {
 
-  answer: function ( question, stop ) {
-    client.Venues.search( stop.latitude, stop.longitude, null, { query: question.body }, null, this._processResponse )
+  respond: function ( ) {
+    var callback = _.bind(this._processResponse, this)
+
+    client.Venues.search(
+      this.latitude(),
+      this.longitude(),
+      null,
+      this.parameters(),
+      null,
+      callback
+    )
+  },
+
+  latitude: function () {
+    return this.question.location.latitude
+  },
+
+  longitude: function () {
+    return this.question.location.longitude
+  },
+
+  parameters: function () {
+    return {
+      query: this.question.keywords()
+    }
   },
 
   // private
 
   _processResponse: function ( req, res ) {
-    var venues  = res.venues
-    var fvenues = []
+    var venues = _(res.venues).map(function (venue) {
+      return new Venue(venue)
+    })
 
-    for (i in res.venues) {
-      fvenues.push( new Venue( venues[i] ) )
-    }
+    var venue = _(venues).first()
 
-    return fvenues;
+    this.response.sms(venue)
   }
 
 }
