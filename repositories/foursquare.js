@@ -8,17 +8,31 @@ config = {
 
 var client = require('node-foursquare')(config)
 
+var Venue = function ( venue ) {
+  this.name = venue.name
+}
+
 var Foursquare = function () {
+
 }
 
 Foursquare.prototype = {
 
   answer: function ( question, stop ) {
-    callback = function ( req, res ) {
-      console.log( res )
+    client.Venues.search( stop.latitude, stop.longitude, null, { query: question.body }, null, this._processResponse )
+  },
+
+  // private
+
+  _processResponse: function ( req, res ) {
+    var venues  = res.venues
+    var fvenues = []
+
+    for (i in res.venues) {
+      fvenues.push( new Venue( venues[i] ) )
     }
 
-    client.Venues.search( stop.latitude, stop.longitude, null, { query: "burritos" }, null, callback )
+    return fvenues;
   }
 
 }
