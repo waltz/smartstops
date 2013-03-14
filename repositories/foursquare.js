@@ -34,6 +34,7 @@ Foursquare.prototype = {
       null,
       callback
     )
+
   },
 
   latitude: function () {
@@ -61,6 +62,8 @@ Foursquare.prototype = {
 
     if (venue) {
       this.response.sms(venue.name)
+    } else {
+      this.response.sms("No results. Please try again.")
     }
   }
 
