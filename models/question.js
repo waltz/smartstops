@@ -1,4 +1,7 @@
+var _       = require('underscore')
 var BusStop = require('./bus_stop')
+
+var ANTI_KEYWORDS = [ "where", "near", "is", "the", "a" ]
 
 var Question = function ( question ) {
 
@@ -15,7 +18,11 @@ var Question = function ( question ) {
 Question.prototype = {
 
   keywords: function () {
-    return this.from
+    var words = this.body.match(/(\w+)/g)
+
+    return _(words).reject(function (word) {
+      return ANTI_KEYWORDS.indexOf(word) != -1
+    }).join(" ")
   },
 
   valid: function () {
