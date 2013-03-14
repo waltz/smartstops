@@ -5,8 +5,7 @@ var fs     = require('fs'),
     proc   = require('child_process'),
     async  = require('async'),
     twilio = require('twilio'),
-    busStopData = require(process.cwd() + '/lib/sf_busstop_locations.json'),
-File = require('file-utils').File;
+    File   = require('file-utils').File;
 
     var MODULES_DIR_PATH = 'modules.d/'
 
@@ -21,6 +20,8 @@ exports.post = function( req, res ) {
   } else {
     console.log("Could not locate bus stop")
   }
+
+  SmartStops.Repositories.Foursquare.answer( stop, question )
 
     var moduleInput = {
         busStopId:   stop.id,

@@ -1,4 +1,4 @@
-data = require('../fixtures/bus_stops')
+data = require('../data/bus_stops')
 
 var BusStop = function ( id, attributes ) {
 
