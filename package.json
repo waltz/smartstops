@@ -10,7 +10,8 @@
         "requireindex": "1.0.0",
         "twilio": "0.7.1",
         "async": "0.1.22",
-        "file-utils": "0.3.0"
+        "file-utils": "0.3.0",
+        "underscore" : "1.4.4"
     },
     "engines": {
         "node": "0.8.x",
