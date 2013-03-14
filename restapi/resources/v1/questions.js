@@ -16,10 +16,16 @@ exports.post = function( req, res ) {
   var question = new SmartStops.Models.Question( req.body )
   var stop     = SmartStops.Models.BusStop.findByQuestion(question)
 
+  // Figure out if there is a bus stop in the question, short
+  // circuit if not.
   if (stop) {
     console.log("Bus stop found")
   } else {
     console.log("Could not locate bus stop")
+    var twiml = new twilio.TwimlResponse();
+    twiml.sms("Sorry, we couldn't locate your bus stop!");
+    res.send(twiml.toString());    
+    return;
   }    
 
     var moduleInput = {
@@ -87,35 +93,32 @@ exports.post = function( req, res ) {
     }
 
     // Loop over modules and get their scores
-    // fs.readdir(MODULES_DIR_PATH, function(err, files) {
+    fs.readdir(MODULES_DIR_PATH, function(err, files) {
 
-    //     async.forEach(files, scoreModule, function(err, results) {
+        async.forEach(files, scoreModule, function(err, results) {
 
-    //         var chosenModule;
-    //         var highestScore = -1;
-    //         for (module in moduleScores) {
-    //             var score = moduleScores[module];
-    //             if (score > highestScore) {
-    //                 highestScore = score;
-    //                 chosenModule = module;
-    //             }
-    //         }
+            var chosenModule;
+            var highestScore = -1;
+            for (module in moduleScores) {
+                var score = moduleScores[module];
+                if (score > highestScore) {
+                    highestScore = score;
+                    chosenModule = module;
+                }
+            }
 
-    //         runModule(chosenModule, function(err, output) {
+            runModule(chosenModule, function(err, output) {
 
-    //             var twiml = new twilio.TwimlResponse();
-    //             twiml.sms(output);
-    //             res.send(twiml.toString());    
+                var twiml = new twilio.TwimlResponse();
+                twiml.sms(output);
+                res.send(twiml.toString());    
 
-    //         });
+            });
 
-    //     }, function() {
-    //         console.log("Finsihed running modules.");
-    //     });
+        }, function() {
+            console.log("Finsihed running modules.");
+        });
 
-    // });
-
-    var twiml = new twilio.TwimlResponse();
-    twiml.sms("butts and robocop");
-    res.send(twiml.toString());    
+    });
+  
 }
