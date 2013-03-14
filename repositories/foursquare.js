@@ -60,7 +60,7 @@ Foursquare.prototype = {
     var venue = _(venues).first()
 
     if (venue) {
-      this.response.sms(venu.name)
+      this.response.sms(venue.name)
     }
   }
 
