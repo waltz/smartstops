@@ -1,9 +1,9 @@
-// Remove me
+// Foursquare configuration and account info.
 config = {
   secrets: {
-    clientId:     "2NJEJ3OGJI3SJQNUBSWCEFZ4YHBMBLFVE54F5MERHX2GP3FS",
-    clientSecret: "TW0SZSEW3SAATL0GORXQYZSKV1PRXXXRWOTBEOTPOGLZCNEA",
-    redirectUrl:  "http://google.com"
+    clientId:     process.env.FOURSQUARE_CLIENT_ID,
+    clientSecret: process.env.FOURSQUARE_CLIENT_SECRET,
+    redirectUrl:  process.env.FOURSQUARE_REDIRECT_URL
   }
 }
 
