@@ -49,7 +49,7 @@ Foursquare.prototype.respond = function ( ) {
     this._longitude(),
     this._near(),
     this._parameters(),
-    this._acessToken(),
+    this._accessToken(),
     _.bind(this._processResponse, this)
   )
 }
