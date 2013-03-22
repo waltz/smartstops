@@ -1,7 +1,19 @@
+// ----------------------------
+// Question Dependencies
+//-----------------------------
+
 var _       = require('underscore')
 var BusStop = require('./bus_stop')
 
 var ANTI_KEYWORDS = [ "where", "near", "around", "is", "the", "a" ]
+
+// ----------------------------
+// Question
+//-----------------------------
+
+/**
+ * Provides a wrapper around an incoming text message
+ */
 
 var Question = function ( question ) {
 
@@ -15,20 +27,30 @@ var Question = function ( question ) {
   }
 }
 
-Question.prototype = {
+// ----------------------------
+// Question Instance Methods
+//-----------------------------
 
-  keywords: function () {
-    var words = this.body.toLowerCase().match(/(\w+)/g)
+/**
+ * Parses a question body and returns a list
+ * of semantically rich keywords
+ */
 
-    return _(words).reject(function (word) {
-      return ANTI_KEYWORDS.indexOf(word) != -1
-    }).join(" ")
-  },
+Question.prototype.keywords = function () {
+  var words = this.body.toLowerCase().match(/(\w+)/g)
 
-  valid: function () {
-    return !!( this.location )
-  }
+  return _(words).reject(function (word) {
+    return ANTI_KEYWORDS.indexOf(word) != -1
+  }).join(" ")
+}
 
+/**
+ * Determines whether a question has enough
+ * information to be accurately answered
+ */
+
+Question.prototype.valid = function () {
+  return !!( this.location )
 }
 
 module.exports = Question

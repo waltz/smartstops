@@ -22,6 +22,13 @@ var Foursquare = function ( question, response ) {
 // Foursquare Class Methods
 //-----------------------------
 
+/**
+ * Determines the likelihood with which the
+ * Foursquare repository can answer a given
+ * question
+ * @parameter {Question} [question] the question one is
+ * attempting to answer
+ */
 
 Foursquare.canRespondTo = function ( question ) {
   return true;
@@ -31,65 +38,100 @@ Foursquare.canRespondTo = function ( question ) {
 // Foursquare Instance Methods
 //-----------------------------
 
+/**
+ * Responds to questions regarding venue near a
+ * specific location
+ */
 
-Foursquare.prototype = {
+Foursquare.prototype.respond = function ( ) {
+  client.Venues.search(
+    this._latitude(),
+    this._longitude(),
+    this._near(),
+    this._parameters(),
+    this._acessToken(),
+    _.bind(this._processResponse, this)
+  )
+}
 
-  respond: function ( ) {
-    client.Venues.search(
-      this._latitude(),
-      this._longitude(),
-      this._near(),
-      this._parameters(),
-      this._acessToken(),
-      _.bind(this._processResponse, this)
-    )
+/**
+ * TODO: See node-foursquare documentation
+ */
 
-  },
+Foursquare.prototype._near = function ( ) {
+  return null
+}
 
-  // private
+/**
+ * Returns Foursquare user access token
+ */
 
-  _near: function () {
-    return null
-  },
+Foursquare.prototype._accessToken = function ( ) {
+  return null
+}
 
-  _accessToken: function () {
-    return null
-  },
+/**
+ * Returns question location object
+ */
 
-  _latitude: function () {
-    return this.question.location.latitude
-  },
+Foursquare.prototype._location = function ( ) {
+  return this.question.location
+}
 
-  _longitude: function () {
-    return this.question.location.longitude
-  },
+/**
+ * Returns question asker's latitude
+ */
 
-  _parameters: function () {
-    return {
-      query: this.question.keywords()
-    }
-  },
+Foursquare.prototype._latitude = function ( ) {
+  var location = this._location()
+  return location.latitude
+}
 
-  _processResponse: function ( req, res ) {
-    var venues = _(res.venues).map(function (venue) {
-      return new Venue(venue)
-    })
+/**
+ * Returns question asker's longitude
+ */
 
-    var venue = _(venues).first()
+Foursquare.prototype._longitude = function ( ) {
+  var location = this._location()
+  return location.longitude
+}
 
-    if (venue) {
-      this.response.sms(venue.name)
-    } else {
-      this.response.sms("No results. Please try again.")
-    }
+/**
+ * Returns search parameters
+ */
+
+Foursquare.prototype._parameters = function ( ) {
+  var parameters = {
+    query: this.question.keywords()
   }
+  return parameters
+}
 
+/**
+ * Processes Foursquare.search response
+ */
+
+Foursquare.prototype._processResponse = function ( req, res ) {
+  var venues = _(res.venues).map(function (venue) {
+    return new Venue(venue)
+  })
+
+  var venue = _(venues).first()
+
+  if (venue) {
+    this.response.sms(venue.name)
+  } else {
+    this.response.sms("No results. Please try again.")
+  }
 }
 
 // ----------------------------
 // Foursquare Response Wrapper
 //-----------------------------
 
+/**
+ * Wraps the Foursquare response in a function
+ */
 
 var Venue = function ( venue ) {
   this.name = venue.name
