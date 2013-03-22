@@ -13,4 +13,5 @@ exports.post = function( req, res ) {
     response.sms( "Sorry, we couldn't locate your bus stop!" )
   }
   
+  console.log("Question Asked: " + question.body + " From: " + question.from)
 }
