@@ -1,7 +1,1 @@
-Foursquare = require("./foursquare")
-
-var Repositories = {
-  Foursquare: Foursquare
-}
-
-module.exports = Repositories
+module.exports = require('requireindex')(__dirname);

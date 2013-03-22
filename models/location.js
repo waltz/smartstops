@@ -3,8 +3,4 @@ var Location = function ( attributes ) {
   this.longitude = attributes.longitude
 }
 
-Location.prototype = {
-
-}
-
 module.exports = Location

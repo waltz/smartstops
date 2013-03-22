@@ -1,12 +1,12 @@
-var SmartStops = require(process.cwd() +'/smart_stops')
+var Models = require(process.cwd() +'/models')
 
 exports.post = function( req, res ) {
 
-  var question = new SmartStops.Models.Question( req.body ),
-      response = new SmartStops.Models.Response( res )
+  var question = new Models.question( req.body ),
+      response = new Models.response( res )
 
   if ( question.valid() ) {
-    var chooser    = new SmartStops.Models.Chooser( question, response )
+    var chooser    = new Models.chooser( question, response )
     var repository = chooser.findBestRepo()
     repository.respond()
   } else {

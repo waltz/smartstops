@@ -1,14 +1,15 @@
-// Foursquare configuration and account info.
-config = {
-  secrets: {
-    clientId:     process.env.FOURSQUARE_CLIENT_ID,
-    clientSecret: process.env.FOURSQUARE_CLIENT_SECRET,
-    redirectUrl:  process.env.FOURSQUARE_REDIRECT_URL
-  }
-}
+// ----------------------------
+// Foursquare Dependencies
+//-----------------------------
 
-var client = require('node-foursquare')(config),
+var config = require( process.cwd() + '/config')
+console.log(process.env.FOURSQUARE_CLIENT_ID)
+var client = require('node-foursquare')(config.foursquare),
     _      = require('underscore')
+
+// ----------------------------
+// Foursquare Repository
+//-----------------------------
 
 var Foursquare = function ( question, response ) {
 
@@ -17,41 +18,57 @@ var Foursquare = function ( question, response ) {
 
 }
 
-var Venue = function ( venue ) {
-  this.name = venue.name
+// ----------------------------
+// Foursquare Class Methods
+//-----------------------------
+
+
+Foursquare.canRespondTo = function ( question ) {
+  return true;
 }
+
+// ----------------------------
+// Foursquare Instance Methods
+//-----------------------------
+
 
 Foursquare.prototype = {
 
   respond: function ( ) {
-    var callback = _.bind(this._processResponse, this)
-
     client.Venues.search(
-      this.latitude(),
-      this.longitude(),
-      null,
-      this.parameters(),
-      null,
-      callback
+      this._latitude(),
+      this._longitude(),
+      this._near(),
+      this._parameters(),
+      this._acessToken(),
+      _.bind(this._processResponse, this)
     )
 
   },
 
-  latitude: function () {
+  // private
+
+  _near: function () {
+    return null
+  },
+
+  _accessToken: function () {
+    return null
+  },
+
+  _latitude: function () {
     return this.question.location.latitude
   },
 
-  longitude: function () {
+  _longitude: function () {
     return this.question.location.longitude
   },
 
-  parameters: function () {
+  _parameters: function () {
     return {
       query: this.question.keywords()
     }
   },
-
-  // private
 
   _processResponse: function ( req, res ) {
     var venues = _(res.venues).map(function (venue) {
@@ -69,8 +86,14 @@ Foursquare.prototype = {
 
 }
 
-Foursquare.canRespondTo = function ( question ) {
-  return true;
+// ----------------------------
+// Foursquare Response Wrapper
+//-----------------------------
+
+
+var Venue = function ( venue ) {
+  this.name = venue.name
 }
+
 
 module.exports = Foursquare

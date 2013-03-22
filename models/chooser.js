@@ -8,7 +8,7 @@ var Chooser = function ( question, response ) {
 Chooser.prototype = {
 
   findBestRepo: function () {
-    var repository = new Repositories.Foursquare( this.question, this.response )  
+    var repository = new Repositories.foursquare( this.question, this.response )
     return repository
   }
 
