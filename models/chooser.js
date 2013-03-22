@@ -45,7 +45,7 @@ Chooser.prototype.findBestRepo = function () {
   if (Repository) {
     return new Repository( this.question, this.response )
   } else {
-    response.sms("Sorry! We don't know how to answer this message.")
+    response.sms("Sorry! We don't know how to answer your question.")
   }
 }
 
