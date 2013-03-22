@@ -42,7 +42,11 @@ Chooser.prototype.findBestRepo = function () {
     .first()
     .value()
 
-  return new Repository( this.question, this.response )
+  if (Repository) {
+    return new Repository( this.question, this.response )
+  } else {
+    response.sms("Sorry! We don't know how to answer this message.")
+  }
 }
 
 module.exports = Chooser
