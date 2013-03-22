@@ -5,6 +5,10 @@
 var _       = require('underscore')
 var BusStop = require('./bus_stop')
 
+// ----------------------------
+// Question Variables
+//-----------------------------
+
 var ANTI_KEYWORDS = [ "where", "near", "around", "is", "the", "a" ]
 
 // ----------------------------
@@ -32,16 +36,27 @@ var Question = function ( question ) {
 //-----------------------------
 
 /**
- * Parses a question body and returns a list
- * of semantically rich keywords
+ * Parses all words within a questio body and removes
+ * all non-semantically meaningful words
  */
 
 Question.prototype.keywords = function () {
-  var words = this.body.toLowerCase().match(/(\w+)/g)
+  var keywords = _(this.words())
+    .reject(function (word) {
+      return ANTI_KEYWORDS.indexOf(word) != -1
+    })
+    .join(" ")
 
-  return _(words).reject(function (word) {
-    return ANTI_KEYWORDS.indexOf(word) != -1
-  }).join(" ")
+  return keywords
+}
+
+/**
+ * Returns an array of all words located within
+ * a question body
+ */
+
+Question.prototype.words = function () {
+  return this.body.toLowerCase().match(/(\w+)/g)
 }
 
 /**

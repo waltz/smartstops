@@ -3,9 +3,14 @@
 //-----------------------------
 
 var config = require( process.cwd() + '/config')
-console.log(process.env.FOURSQUARE_CLIENT_ID)
 var client = require('node-foursquare')(config.foursquare),
     _      = require('underscore')
+
+// ----------------------------
+// Foursquare Variables
+//-----------------------------
+
+var KEYWORDS = [ "where", "near" ]
 
 // ----------------------------
 // Foursquare Repository
@@ -30,8 +35,15 @@ var Foursquare = function ( question, response ) {
  * attempting to answer
  */
 
-Foursquare.canRespondTo = function ( question ) {
-  return true;
+Foursquare.answerability = function ( question ) {
+  var words = question.words()
+  var match = 0
+
+  _(KEYWORDS).each(function (keyword) {
+    if (words.indexOf(keyword) == 0) match = 1
+  })
+
+  return match;
 }
 
 // ----------------------------
