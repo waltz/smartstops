@@ -5,6 +5,10 @@
 var Location = require('./location')
 var data     = require('../data/bus_stops')
 
+// ----------------------------
+// BusStop Variables
+//-----------------------------
+
 var STOP_ID_REGEX = /\d{3,}/
 
 // ----------------------------
