@@ -9,7 +9,7 @@ var BusStop = require('./bus_stop')
 // Question Variables
 //-----------------------------
 
-var ANTI_KEYWORDS = [ "where", "near", "around", "is", "the", "a" ]
+var ANTI_KEYWORDS = [ ]
 
 // ----------------------------
 // Question

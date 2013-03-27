@@ -10,7 +10,7 @@ var client = require('node-foursquare')(config.foursquare),
 // Foursquare Variables
 //-----------------------------
 
-var KEYWORDS = [ "where", "near" ]
+var KEYWORDS = [ 'best', 'where', 'closest', 'nearby', 'find', 'good', 'near' ]
 
 // ----------------------------
 // Foursquare Repository
