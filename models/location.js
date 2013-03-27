@@ -7,6 +7,7 @@
  * latitude and longitude properties
  */
 
+
 var Location = function ( attributes ) {
 
   this.latitude  = attributes.latitude
